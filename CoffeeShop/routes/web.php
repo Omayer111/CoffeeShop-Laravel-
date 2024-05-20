@@ -27,16 +27,6 @@ Route::get('/panel', [AuthController::class, 'CheckIfLoggedIn'])->name('CheckIfL
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('home', [AuthController::class, 'home'])->name('home');
-    Route::get('logout', function () {
-        session()->flush();
-        auth()->logout();
-        return redirect()->route('login');
-    })->name('logout');
-
-});
-
 Route::get('/chefs',[AdminController::class, 'chefs'])->name('chefs');
 Route::get('/menus',[AdminController::class, 'menus'])->name('menus');
 

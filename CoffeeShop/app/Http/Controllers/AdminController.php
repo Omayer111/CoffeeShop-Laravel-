@@ -17,8 +17,7 @@ class AdminController
 
     public function delete($id)
     {
-        $data = User::find($id);
-        $data->delete();
+        DB::table('forms')->where('id', $id)->delete();
         return redirect()->route('users');
     }
     public function Rdelete($id)

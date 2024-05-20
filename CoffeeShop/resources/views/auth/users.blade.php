@@ -42,7 +42,7 @@
                                                 <td>{{ $item->name }}</td>
                                                 <td>{{ $item->email }}</td>
                                                 <td>{{ $item->message }}</td>
-                                                <td><a href="{{ url('/Rdeletion/' . $item->id) }}">delete</a></td>
+                                                <td><a href="{{ url('/deletion/' . $item->id) }}">delete</a></td>
                                             </tr>
                                         @endif
                                     @endforeach

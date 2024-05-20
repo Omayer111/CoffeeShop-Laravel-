@@ -61,7 +61,7 @@ class AuthController
             if ($user->usertype == 1) {
                 Session::put('user', (array) $user);
     
-                Cookie::queue('user', json_encode((array) $user), 120); // Store for 120 minutes
+                Cookie::queue('user', json_encode((array) $user), 120); 
     
                 return view('auth.dashboard');
             } else {
@@ -84,33 +84,29 @@ class AuthController
     }
 
 
-
-
-
-
-
-
     public function register()
     {
         return view('auth.register');
     }
 
     public function register_now(Request $request)
-{
-    $request->validate([
-        'name' => 'required',
-        'email' => 'required|email',
-        'password' => 'required|confirmed'
-    ]);
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email', 
+            'password' => 'required|confirmed'
+        ]);
     
-    User::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'password' => Hash::make($request->password)
-    ]);
-   
-    // Redirect the user to the login page
-    return redirect()->route('login')->with('success', 'Registration successful. Please log in.');
-}
+        DB::table('users')->insert([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+    
+        return redirect()->route('login')->with('success', 'Registration successful. Please log in.');
+    }
+    
 
 }
