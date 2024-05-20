@@ -22,9 +22,8 @@ Route::post('/register', [AuthController::class, 'register_now'])->name('registe
 });
 
 
-Route::get('/dashboard', function () {
-    return view('auth.dashboard');
-})->name('dashboard');
+Route::get('/panel', [AuthController::class, 'CheckIfLoggedIn'])->name('CheckIfLoggedIn');
+
 
 
 Route::group(['middleware' => 'auth'], function () {
@@ -57,11 +56,15 @@ Route::get('/Rdeletion/{id}', [AdminController::class, 'Rdelete'])->name('Rdelet
 Route::get('/Bdeletion/{id}', [AdminController::class, 'Bdelete'])->name('Bdelete');
 Route::get('/Bupdate/{id}', [AdminController::class, 'Bupdate'])->name('Bupdate');
 Route::get('/Bupdate', [AdminController::class, 'BupdateNow'])->name('BupdateNow');
+Route::get('/Cupdate/{id}', [AdminController::class, 'Cupdate'])->name('Cupdate');
+Route::post('/Cupdate', [AdminController::class, 'CupdateNow'])->name('CupdateNow');
 
 Route::get('/Cdeletion/{id}', [AdminController::class, 'Cdelete'])->name('Cdelete');
 
 Route::get('/Chefdeletion/{id}', [AdminController::class, 'Chefdelete'])->name('Chefdelete');
 
+Route::post('/change_photo/{id}', [AdminController::class, 'changePhoto'])->name('change_photo');
+Route::post('/add_new_chef', [AdminController::class, 'addNewChef'])->name('add_new_chef');
 Route::post('/', [AdminController::class, 'formInfo']);
 
 Route::post('/reservation', [AdminController::class, 'reservationInfo']);

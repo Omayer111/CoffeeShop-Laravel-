@@ -16,18 +16,35 @@ class AuthController
     {
         return view('auth.login');
     }
-    
-    public function login(Request $request)
+
+    public function CheckIfLoggedIn()
     {
-        $credentials = $request->only('email', 'password');
-        
-        if (auth()->attempt($credentials)) {
-            return redirect()->route('dashboard');
+        if (Auth::check()) {
+            return view('auth.dashboard');
+        } else {
+            return redirect()->route('login');
         }
-        
-        return back()->with('error', 'Invalid credentials');
     }
     
+    
+    public function login(Request $request)
+{
+    $credentials = $request->only('email', 'password');
+
+    if (auth()->attempt($credentials)) {
+        $user = auth()->user();
+        
+        if ($user->usertype == 1) {
+            return view('auth.dashboard');
+        } else {
+            auth()->logout();
+            return back()->with('error', 'Access denied. Invalid user type.');
+        }
+    }
+
+    // If authentication fails, redirect back with an error message
+    return back()->with('error', 'Invalid credentials');
+}
 
     public function register()
     {
@@ -35,25 +52,21 @@ class AuthController
     }
 
     public function register_now(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|confirmed'
-        ]);
-        
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password)
-        ]);
-       
-        
-        if(Auth::attempt($request->only('email', 'password'))){
-            return redirect()->route('dashboard');
-        }
-        else{
-            return back()->with('error', 'Invalid credentials');
-        }
-    }
+{
+    $request->validate([
+        'name' => 'required',
+        'email' => 'required|email',
+        'password' => 'required|confirmed'
+    ]);
+    
+    User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password)
+    ]);
+   
+    // Redirect the user to the login page
+    return redirect()->route('login')->with('success', 'Registration successful. Please log in.');
+}
+
 }

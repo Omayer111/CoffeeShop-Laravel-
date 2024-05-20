@@ -46,7 +46,7 @@
 
                             <div class="row">
                                 <div class="col-8 text-left">
-                                    <a href="#" class="btn btn-link">Forgot Password</a>
+                                    <a href="/login" class="btn btn-link">LOGIN HERE</a>
                                 </div>
                                 <div class="col-4 text-right">
                                     <input type="submit" class="btn btn-primary" value=" Register " />

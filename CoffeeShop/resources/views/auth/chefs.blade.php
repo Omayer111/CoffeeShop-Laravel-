@@ -17,10 +17,12 @@
                         <table style="background-color: rgb(19, 17, 17); color: white;">
                             <thead>
                                 <tr>
-                                    <th style="padding: 10px;" style="width: 25%;">Name</th>
-                                    <th style="padding: 10px;"style="width: 25%;">Position</th>
-                                    <th style="padding: 10px;" style="width: 25%;">Image</th>
-                                    <th style="padding: 10px;" style="width: 25%;">Action</th>
+                                    <th style="padding: 10px; width: 25%;">Name</th>
+                                    <th style="padding: 10px; width: 25%;">Position</th>
+                                    <th style="padding: 10px; width: 25%;">Image</th>
+                                    <th style="padding: 10px; width: 25%;">Action</th>
+                                    <!-- New column for file input -->
+                                    <th style="padding: 10px; width: 25%;">Change Photo</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -36,28 +38,49 @@
                                             <a href="{{ url('/Chefdeletion/' . $item->id) }}"
                                                 class="btn btn-danger">Delete</a>
                                         </td>
+                                        <!-- Input field for changing photo -->
+                                        <td style="padding: 10px;">
+                                            <form action="{{ route('change_photo', ['id' => $item->id]) }}"
+                                                method="POST" enctype="multipart/form-data">
+                                                @csrf
+                                                <input type="file" name="new_photo">
+                                                <button type="submit" class="btn btn-primary">Upload</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 @endforeach
+                                <!-- Input row for adding a new chef -->
+                                <tr>
+                                    <form action="{{ route('add_new_chef') }}" method="POST"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        <td style="padding: 10px;">
+                                            <input type="text" name="new_chef_name" placeholder="Enter chef's name">
+                                        </td>
+                                        <td style="padding: 10px;">
+                                            <input type="text" name="new_chef_position"
+                                                placeholder="Enter chef's position">
+                                        </td>
+                                        <td style="padding: 10px;">
+                                            <input type="file" name="new_chef_photo">
+                                        </td>
+                                        <td style="padding: 10px;">
+                                            <button type="submit" class="btn btn-success">Add New Chef</button>
+                                        </td>
+                                        <td style="padding: 100px;"></td> <!-- Empty column for consistency -->
+                                    </form>
+                                    <br><br><br><br>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
-
-
-
-
-
-
-
-
-
-
     </div>
 
     @include('auth.adminJS')
 
-
+</body>
 
 </html>

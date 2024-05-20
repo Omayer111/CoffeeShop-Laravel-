@@ -4,7 +4,7 @@
 
         <li class="nav-item profile">
             <div class="profile-desc">
-                <a href="/home"
+                <a href="/"
                     style="padding: 10px; margin-right: 10px; color: white; text-decoration: none; background-color: #333;">Home</a>
                 <a href="/logout"
                     style="padding: 10px; margin-right: 10px; color: white; text-decoration: none; background-color: #333;">Logout</a>

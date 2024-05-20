@@ -235,8 +235,11 @@ Bootstrap 5 HTML CSS Template
                                     </div>
 
                                     <div class="border-top mt-2 pt-2">
-                                        <small>{{ $item->description }}</small>
+                                        <small
+                                            style="color: whitesmoke;font-size:15px">{{ $item->description }}</small>
                                     </div>
+
+                                    <br><br>
                                 </div>
                             @endforeach
 
@@ -263,7 +266,9 @@ Bootstrap 5 HTML CSS Template
                                     </div>
 
                                     <div class="border-top mt-2 pt-2">
-                                        <small>{{ $item->description }}</small>
+                                        <small
+                                            style="color: whitesmoke;font-size:15px">{{ $item->description }}</small>
+                                        <br><br>
                                     </div>
                                 </div>
                             @endforeach

@@ -23,9 +23,9 @@ class AdminController
     }
     public function Rdelete($id)
     {
-            DB::table('reservations')->where('id', $id)->delete();
-            
-            return redirect()->route('Areservation');
+        DB::table('reservations')->where('id', $id)->delete();
+
+        return redirect()->route('Areservation');
     }
     public function Bdelete($id)
     {
@@ -57,12 +57,41 @@ class AdminController
         return redirect()->route('menus');
     }
 
-    public function Cdelete($id)
+    public function Cupdate($id)
     {
         $data = DB::table('cmenus')->find($id);
-        $data->delete();
+        return view('auth.Cupdate', compact("data"));
+    }
+
+    public function CupdateNow(Request $request)
+    {
+        $id = $request->input('idU');
+        $name = $request->input('nameU');
+        $price = $request->input('priceU');
+        $description = $request->input('descriptionU');
+
+        DB::table('cmenus')->where('id', $id)->update([
+            'name' => $name,
+            'price' => $price,
+            'description' => $description,
+        ]);
         return redirect()->route('menus');
     }
+
+    public function Cdelete($id)
+{
+    // Find the record using the Query Builder
+    $data = DB::table('cmenus')->where('id', $id);
+
+    // Check if the record exists
+    if ($data->exists()) {
+        // Delete the record
+        $data->delete();
+    }
+
+    // Redirect to the menus route
+    return redirect()->route('menus');
+}
     public function formInfo(Request $request)
     {
         $name = $request->input('name');
@@ -123,4 +152,66 @@ class AdminController
 
 
     }
+
+
+public function changePhoto(Request $request, $id)
+{
+    // Validate the uploaded file
+    $request->validate([
+        'new_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust validation rules as needed
+    ]);
+
+    // Get the chef record by ID
+    $chef = DB::table('chefs')->find($id);
+
+    // Check if the chef exists
+    if (!$chef) {
+        return back()->with('error', 'Chef not found');
+    }
+
+    // Handle file upload
+    if ($request->hasFile('new_photo')) {
+        $image = $request->file('new_photo');
+        $imageName = time() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('images/team'), $imageName);
+
+        // Update the chef's photo in the database
+        DB::table('chefs')
+            ->where('id', $id)
+            ->update(['image' => $imageName]);
+
+        return back()->with('success', 'Chef photo updated successfully');
+    } else {
+        return back()->with('error', 'Failed to upload photo');
+    }
+}
+
+public function addNewChef(Request $request)
+{
+    // Validate the incoming request data
+    $request->validate([
+        'new_chef_name' => 'required',
+        'new_chef_position' => 'required',
+        'new_chef_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    // Handle file upload
+    if ($request->hasFile('new_chef_photo')) {
+        $image = $request->file('new_chef_photo');
+        $imageName = time() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('images/team'), $imageName);
+    } else {
+        return back()->with('error', 'Failed to upload photo');
+    }
+
+    // Insert a new chef record using DB facade
+    DB::table('chefs')->insert([
+        'name' => $request->input('new_chef_name'),
+        'position' => $request->input('new_chef_position'),
+        'image' => $imageName,
+    ]);
+
+    return back()->with('success', 'New chef added successfully');
+}
+
 }
