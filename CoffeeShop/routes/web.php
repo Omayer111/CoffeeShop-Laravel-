@@ -24,6 +24,7 @@ Route::post('/register', [AuthController::class, 'register_now'])->name('registe
 
 Route::get('/panel', [AuthController::class, 'CheckIfLoggedIn'])->name('CheckIfLoggedIn');
 
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 Route::group(['middleware' => 'auth'], function () {
