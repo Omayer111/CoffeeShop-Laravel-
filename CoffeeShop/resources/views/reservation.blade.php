@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Barista Cafe - HTML Reservation Form</title>
+    <title>Sip and Savor</title>
 
     <!-- CSS FILES -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,7 +44,7 @@ Bootstrap 5 HTML CSS Template
             <div class="container">
                 <a class="navbar-brand d-flex align-items-center" href="/">
                     <img src="images/coffee-beans.png" class="navbar-brand-image img-fluid" alt="">
-                    Barista.co
+                    Sip and Savor
                 </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"

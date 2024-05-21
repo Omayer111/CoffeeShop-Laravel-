@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ShowController;
+use App\Http\Middleware\RedirectIfAuthenticated;
 
 Route::get('/', [ShowController::class, 'index'])->name('index');
 
@@ -12,14 +13,16 @@ Route::get('/reservation', function () {
     return view('reservation');
 })->name('reservation');
 
-Route::group(['middleware' => 'guest'], function () {
 
-Route::get('/login', [AuthController::class, 'index'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login');
 
-Route::get('/register', [AuthController::class, 'register'])->name('register');
-Route::post('/register', [AuthController::class, 'register_now'])->name('register');
+Route::middleware([RedirectIfAuthenticated::class])->group(function () {
+    Route::get('/login', [AuthController::class, 'index'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+    Route::get('/register', [AuthController::class, 'register'])->name('register');
+    Route::post('/register', [AuthController::class, 'register_now'])->name('register');
 });
+
 
 
 Route::get('/panel', [AuthController::class, 'CheckIfLoggedIn'])->name('CheckIfLoggedIn');
