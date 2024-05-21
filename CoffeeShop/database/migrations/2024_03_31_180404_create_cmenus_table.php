@@ -16,7 +16,9 @@ return new class extends Migration
             $table->string('name', 255);
             $table->string('description', 255);
             $table->string('price', 255);
-                });
+            $table->unsignedBigInteger('chef_id'); // Add chef_id column
+            $table->foreign('chef_id')->references('id')->on('chefs')->onDelete('cascade'); // Add foreign key constraint
+        });
     }
 
     /**

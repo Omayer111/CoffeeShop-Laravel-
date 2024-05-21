@@ -34,6 +34,8 @@ Route::get('/chefs',[AdminController::class, 'chefs'])->name('chefs');
 Route::get('/menus',[AdminController::class, 'menus'])->name('menus');
 
 
+Route::post('/add_new_bmenu', [AdminController::class, 'addNewBmenu'])->name('add_new_bmenu');
+Route::post('/add_new_cmenu', [AdminController::class, 'addNewCmenu'])->name('add_new_cmenu');
 
 
 

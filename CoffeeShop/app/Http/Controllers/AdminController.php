@@ -213,4 +213,65 @@ public function addNewChef(Request $request)
     return back()->with('success', 'New chef added successfully');
 }
 
+public function addNewBmenu(Request $request)
+{
+    // Validate the incoming request
+    $request->validate([
+        'name' => 'required',
+        'description' => 'required',
+        'price' => 'required|numeric',
+        'chef_name' => 'required', // Validate chef's name
+    ]);
+
+    // Find the chef by name
+    $chef = DB::table('chefs')->where('name', $request->chef_name)->first();
+
+    // Check if chef exists
+    if (!$chef) {
+        // Chef not found, handle error
+        return redirect()->back()->with('error', 'Chef not found.');
+    }
+
+    // Create a new Bmenu instance
+    DB::table('bmenus')->insert([
+        'name' => $request->name,
+        'description' => $request->description,
+        'price' => $request->price,
+        'chef_id' => $chef->id
+    ]);
+
+    // Redirect back with success message
+    return redirect()->back()->with('success', 'Bmenu added successfully.');
+}
+public function addNewCmenu(Request $request)
+    {
+        // Validate the request data if needed
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'price' => 'required|string|max:255',
+            'chef_name' => 'required', // Validate chef's name
+        ]);
+
+        $chef = DB::table('chefs')->where('name', $request->chef_name)->first();
+
+        // Check if chef exists
+        if (!$chef) {
+            // Chef not found, handle error
+            return redirect()->back()->with('error', 'Chef not found.');
+        }
+    
+
+        // Create a new Bmenu instance
+        DB::table('cmenus')->insert([
+            'name' => $request->name,
+            'description' => $request->description,
+            'price' => $request->price,
+            'chef_id' => $chef->id
+        ]);
+
+        // Optionally, you can redirect the user after adding the Bmenu
+        return redirect()->back()->with('success', 'Cmenu added successfully!');
+    }
+
 }

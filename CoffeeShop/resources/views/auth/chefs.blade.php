@@ -10,24 +10,27 @@
     <div class="container-scroller">
         @include('auth.nav')
 
-        <div class="main-panel page-body-wrapper" style="text-align: left; position:relative; top:50px; right:300px;">
+        <div class="main-panel page-body-wrapper"
+            style="text-align: left; position:relative; top:50px; right:300px; overflow-x: auto;">
             <div class="container">
                 <div class="row">
                     <div class="col">
                         <table style="background-color: rgb(19, 17, 17); color: white;">
                             <thead>
                                 <tr>
-                                    <th style="padding: 10px; width: 25%;">Name</th>
-                                    <th style="padding: 10px; width: 25%;">Position</th>
-                                    <th style="padding: 10px; width: 25%;">Image</th>
-                                    <th style="padding: 10px; width: 25%;">Action</th>
+                                    <th style="padding: 10px; width: 10%;">ID</th> <!-- New column for ID -->
+                                    <th style="padding: 10px; width: 20%;">Name</th>
+                                    <th style="padding: 10px; width: 20%;">Position</th>
+                                    <th style="padding: 10px; width: 20%;">Image</th>
+                                    <th style="padding: 10px; width: 20%;">Action</th>
                                     <!-- New column for file input -->
-                                    <th style="padding: 10px; width: 25%;">Change Photo</th>
+                                    <th style="padding: 10px; width: 10%;">Change Photo</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($chefs as $item)
                                     <tr>
+                                        <td style="padding: 10px;">{{ $item->id }}</td> <!-- Display ID -->
                                         <td style="padding: 10px;">{{ $item->name }}</td>
                                         <td style="padding: 10px;">{{ $item->position }}</td>
                                         <td style="padding: 10px;">
@@ -54,6 +57,9 @@
                                     <form action="{{ route('add_new_chef') }}" method="POST"
                                         enctype="multipart/form-data">
                                         @csrf
+                                        <td style="padding: 10px;">
+                                            <!-- ID field left empty for new chef -->
+                                        </td>
                                         <td style="padding: 10px;">
                                             <input type="text" name="new_chef_name" placeholder="Enter chef's name">
                                         </td>

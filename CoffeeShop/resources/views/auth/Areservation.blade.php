@@ -11,6 +11,7 @@
 
         .table-responsive {
             overflow-x: auto;
+            /* Change to auto for responsive horizontal scrolling */
         }
     </style>
 </head>
@@ -20,12 +21,12 @@
     <div class="container-scroller">
         @include('auth.nav')
 
-        <div class="main-panel page-body-wrapper" style="text-align: left;">
-            <div class="container">
-                <div class="row">
-                    <div class="col">
+        <div class="main-panel page-body-wrapper">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-md-10">
                         <div class="table-responsive">
-                            <table class="table" style="background-color: rgb(19, 17, 17);color:white;border:2px">
+                            <table class="table" style="background-color: rgb(19, 17, 17); color: white; border: 2px">
                                 <thead>
                                     <tr>
                                         <th>name</th>

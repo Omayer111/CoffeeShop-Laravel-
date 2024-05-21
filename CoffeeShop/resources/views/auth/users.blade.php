@@ -23,8 +23,8 @@
 
         <div class="main-panel page-body-wrapper" style="text-align: left;">
             <div class="container">
-                <div class="row">
-                    <div class="col">
+                <div class="row-md-8 justify-content-center">
+                    <div class="col-md-8">
                         <div class="table-responsive">
                             <table class="table" style="background-color: rgb(19, 17, 17);color:white;border:2px">
                                 <thead>
