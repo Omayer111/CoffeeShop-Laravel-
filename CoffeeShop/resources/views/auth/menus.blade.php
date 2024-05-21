@@ -31,7 +31,7 @@
                                         <th>name</th>
                                         <th>description</th>
                                         <th>price</th>
-                                        <th>chef_id</th> <!-- New column -->
+                                        <th>chef_name</th> <!-- New column -->
                                         <th>action</th>
                                         <th>update</th>
                                     </tr>
@@ -80,7 +80,7 @@
                                         <th>name</th>
                                         <th>description</th>
                                         <th>price</th>
-                                        <th>chef_id</th> <!-- New column -->
+                                        <th>chef_name</th> <!-- New column -->
                                         <th>action</th>
                                         <th>update</th>
                                     </tr>

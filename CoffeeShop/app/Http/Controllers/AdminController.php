@@ -2,6 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Model;
+
+use App\Models\Chef;
+use App\Models\Bmenu;
+use App\Models\Cmenu;
+
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Form; // Import the 'Form' class from the appropriate namespace
@@ -131,15 +137,17 @@ class AdminController
     }
     public function menus()
     {
-        $bmenus = DB::table('bmenus')->get();
-        $cmenus = DB::table('cmenus')->get();
-        return view('auth.menus', compact('bmenus', 'cmenus'));
+         // Fetch all bmenu and cmenu records along with their related chef records
+         $bmenus = Bmenu::with('chef')->get();
+         $cmenus = Cmenu::with('chef')->get();
+ 
+         return view('auth.menus', compact('bmenus', 'cmenus'));
     }
 
 
     public function chefs()
     {
-        $chefs = DB::table('chefs')->get();
+        $chefs = Chef::with(['bmenus', 'cmenus'])->get();
         return view('auth.chefs', compact('chefs'));
     }
 

@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
-
+use App\Models\Bmenu;
+use App\Models\Cmenu;
+use App\Models\Chef;
 
 class AuthController
 {
@@ -42,6 +44,123 @@ class AuthController
             Session::put('user', $user);
 
             return view('auth.dashboard');
+        }
+    }
+
+    return redirect()->route('login');
+}
+
+    public function CheckIfLoggedInForMenus()
+{
+    if (Session::has('user')) {
+        $user = Session::get('user');
+
+        $userExists = DB::table('users')->where('id', $user['id'])->exists();
+
+        if ($userExists) {
+            $bmenus = Bmenu::with('chef')->get();
+            $cmenus = Cmenu::with('chef')->get();
+ 
+            return view('auth.menus', compact('bmenus', 'cmenus'));
+            
+        }
+    }
+
+    if (Cookie::has('user')) {
+        $user = json_decode(Cookie::get('user'), true);
+
+        $userExists = DB::table('users')->where('id', $user['id'])->exists();
+
+        if ($userExists) {
+            Session::put('user', $user);
+
+            return view('auth.menus');
+        }
+    }
+
+    return redirect()->route('login');
+}
+    public function CheckIfLoggedInForChefs()
+{
+    if (Session::has('user')) {
+        $user = Session::get('user');
+
+        $userExists = DB::table('users')->where('id', $user['id'])->exists();
+
+        if ($userExists) {
+            $chefs = Chef::with(['bmenus', 'cmenus'])->get();
+        return view('auth.chefs', compact('chefs'));
+            
+        }
+    }
+
+    if (Cookie::has('user')) {
+        $user = json_decode(Cookie::get('user'), true);
+
+        $userExists = DB::table('users')->where('id', $user['id'])->exists();
+
+        if ($userExists) {
+            Session::put('user', $user);
+
+            return view('auth.menus');
+        }
+    }
+
+    return redirect()->route('login');
+}
+    public function CheckIfLoggedInForUsers()
+{
+    if (Session::has('user')) {
+        $user = Session::get('user');
+
+        $userExists = DB::table('users')->where('id', $user['id'])->exists();
+
+        if ($userExists) {
+            
+            $data = DB::table('forms')->get();
+            return view('auth.users', compact("data"));
+            
+        }
+    }
+
+    if (Cookie::has('user')) {
+        $user = json_decode(Cookie::get('user'), true);
+
+        $userExists = DB::table('users')->where('id', $user['id'])->exists();
+
+        if ($userExists) {
+            Session::put('user', $user);
+
+            return view('auth.menus');
+        }
+    }
+
+    return redirect()->route('login');
+}
+
+    public function CheckIfLoggedInForReservation()
+{
+    if (Session::has('user')) {
+        $user = Session::get('user');
+
+        $userExists = DB::table('users')->where('id', $user['id'])->exists();
+
+        if ($userExists) {
+            $data = DB::table('reservations')->get();
+        return view('auth.Areservation', compact("data"));
+            
+        }
+    }
+
+    if (Cookie::has('user')) {
+        $user = json_decode(Cookie::get('user'), true);
+
+        $userExists = DB::table('users')->where('id', $user['id'])->exists();
+
+        if ($userExists) {
+            Session::put('user', $user);
+
+            return view('auth.menus');
         }
     }
 

@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ShowController;
 use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Http\Middleware\dashboardCheck;
 
 Route::get('/', [ShowController::class, 'index'])->name('index');
 
@@ -21,17 +22,26 @@ Route::middleware([RedirectIfAuthenticated::class])->group(function () {
 
     Route::get('/register', [AuthController::class, 'register'])->name('register');
     Route::post('/register', [AuthController::class, 'register_now'])->name('register');
+
 });
 
 
 
-Route::get('/panel', [AuthController::class, 'CheckIfLoggedIn'])->name('CheckIfLoggedIn');
+Route::middleware([dashboardCheck::class])->group(function () {
+    Route::get('/panel', [AuthController::class, 'CheckIfLoggedIn'])->name('CheckIfLoggedIn');
+    Route::get('/menus', [AuthController::class, 'CheckIfLoggedInForMenus'])->name('menus');
+    Route::get('/chefs', [AuthController::class, 'CheckIfLoggedInForChefs'])->name('chefs');
+    Route::get('/users', [AuthController::class, 'CheckIfLoggedInForUsers'])->name('users');
+    Route::get('/Areservation', [AuthController::class, 'CheckIfLoggedInForReservation'])->name('Areservation');
+});
+
+
 
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-Route::get('/chefs',[AdminController::class, 'chefs'])->name('chefs');
-Route::get('/menus',[AdminController::class, 'menus'])->name('menus');
+// Route::get('/chefs',[AdminController::class, 'chefs'])->name('chefs');
+// Route::get('/menus',[AdminController::class, 'menus'])->name('menus');
 
 
 Route::post('/add_new_bmenu', [AdminController::class, 'addNewBmenu'])->name('add_new_bmenu');
@@ -43,7 +53,7 @@ Route::post('/add_new_cmenu', [AdminController::class, 'addNewCmenu'])->name('ad
 
 
 
-Route::get('/users', [AdminController::class, 'users'])->name('users');
+//Route::get('/users', [AdminController::class, 'users'])->name('users');
 
 Route::get('/deletion/{id}', [AdminController::class, 'delete'])->name('delete');
 
@@ -65,4 +75,4 @@ Route::post('/', [AdminController::class, 'formInfo']);
 
 Route::post('/reservation', [AdminController::class, 'reservationInfo']);
 
-Route::get('/Areservation', [AdminController::class, 'getreservation'])->name('Areservation');
+//Route::get('/Areservation', [AdminController::class, 'getreservation'])->name('Areservation');
