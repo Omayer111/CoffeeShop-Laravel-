@@ -17,17 +17,15 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next)
     {
-        // Check if the session contains user data
         if (Session::has('user')) {
-            return redirect('/'); // Redirect to the home page or any other page
+            return redirect('/');
         }
 
-        // Check if the cookie contains user data
         if (Cookie::has('user')) {
             $user = json_decode(Cookie::get('user'), true);
             if ($user) {
-                Session::put('user', $user); // Restore user session from cookie
-                return redirect('/'); // Redirect to the home page or any other page
+                Session::put('user', $user); 
+                return redirect('/'); 
             }
         }
 
